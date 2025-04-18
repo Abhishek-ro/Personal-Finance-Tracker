@@ -19,6 +19,7 @@
     "finance-tracker": "file:",
     "framer-motion": "^12.7.4",
     "jotai": "^2.12.3",
+    "lightningcss": "^1.29.3",
     "lucide-react": "^0.488.0",
     "mongoose": "^8.13.2",
     "next": "15.3.0",
