@@ -177,7 +177,7 @@ export default function Home() {
         return []; 
       }
       const data = await res.json();
-      console.log("dataaaaaaaa", data);
+     
       return data ?? [];
     } catch (error) {
       console.error("Error during fetch:", error);
@@ -227,6 +227,9 @@ export default function Home() {
     }
     const response = await fetch("/api/transactions", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ amount: +amount, date, description, category }),
     });
 
@@ -486,6 +489,11 @@ export default function Home() {
     {}
   );
 
+  const formatDate = (isoDate: string) => {
+    return new Date(isoDate).toISOString().split("T")[0]; 
+  };
+
+
   const chartCategoryData = Object.entries(categoryData).map(
     ([category, total]) => ({
       name: category,
@@ -708,9 +716,10 @@ const getUniqueColor = () => {
                 value={editAmount}
                 onChange={(e) => setEditAmount(e.target.value)}
               />
+
               <Input
                 type="date"
-                value={editDate}
+                value={formatDate(editDate)}
                 onChange={(e) => setEditDate(e.target.value)}
               />
               <Input

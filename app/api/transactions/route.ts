@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       category,
     });
     return NextResponse.json(newTx, { status: 201 });
-  } catch  {
+  } catch {
     console.error("POST /api/transactions error:");
     return NextResponse.json(
       { error: "Failed to create transaction" },

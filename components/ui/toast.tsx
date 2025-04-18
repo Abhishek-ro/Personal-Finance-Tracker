@@ -18,16 +18,16 @@ type ToastProps = React.HTMLAttributes<HTMLDivElement> & {
 export const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
   ({ className, toast, onDismiss, ...props }, ref) => {
     React.useEffect(() => {
-      console.log("toast.duration", toast.duration);
       if (toast) {
         const timer = setTimeout(() => {
           onDismiss?.(toast.id);
-        }, toast.duration);
+        }, 3000);
 
         return () => clearTimeout(timer);
       }
+  
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [toast.id, toast.duration, onDismiss]);
+    }, []);
 
     return (
       <div
