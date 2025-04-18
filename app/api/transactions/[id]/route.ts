@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Transaction } from "@/model/transaction.model";
@@ -43,15 +41,15 @@ export async function GET(
 ) {
   try {
     await connectDB();
-    await seedDatabase();  
+    await seedDatabase();
 
     const transactions = await Transaction.find().sort({ date: -1 });
-
+    console.log(req,params)
     return NextResponse.json(transactions);
   } catch (error) {
     console.error("GET /api/transactions error:", error);
     return NextResponse.json(
-      { error: "Internal Server Error", details: error.message },
+      { error: "Internal Server Error"},
       { status: 500 }
     );
   }
@@ -69,10 +67,10 @@ export async function POST(req: Request) {
       category,
     });
     return NextResponse.json(newTx, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("POST /api/transactions error:", error);
     return NextResponse.json(
-      { error: "Failed to create transaction", details: error.message },
+      { error: "Failed to create transaction"},
       { status: 500 }
     );
   }
@@ -104,10 +102,10 @@ export async function DELETE(
     }
 
     return NextResponse.json({ message: "Transaction deleted successfully" });
-  } catch (error: any) {
+  } catch (error) {
     console.error(`DELETE /api/transactions/${id} error:`, error);
     return NextResponse.json(
-      { error: "Failed to delete transaction", details: error.message },
+      { error: "Failed to delete transaction"},
       { status: 500 }
     );
   }
@@ -143,10 +141,10 @@ export async function PUT(
     }
 
     return NextResponse.json(updatedTransaction);
-  } catch (error: any) {
+  } catch (error) {
     console.error(`PUT /api/transactions/${id} error:`, error);
     return NextResponse.json(
-      { error: "Failed to update transaction", details: error.message },
+      { error: "Failed to update transaction"},
       { status: 500 }
     );
   }

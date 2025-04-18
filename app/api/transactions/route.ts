@@ -19,9 +19,9 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const { amount, date, description, category } = await req.json();
-    if (!amount || !date || !description || !category){
-      return
-    } 
+    if (!amount || !date || !description || !category) {
+      return;
+    }
     await connectDB();
     const newTx = await Transaction.create({
       amount,
@@ -30,12 +30,11 @@ export async function POST(req: Request) {
       category,
     });
     return NextResponse.json(newTx, { status: 201 });
-  } catch (error: any) {
-    console.error("POST /api/transactions error:", error);
+  } catch  {
+    console.error("POST /api/transactions error:");
     return NextResponse.json(
-      { error: "Failed to create transaction", details: error.message },
+      { error: "Failed to create transaction" },
       { status: 500 }
     );
   }
 }
-

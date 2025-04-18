@@ -20,15 +20,7 @@ export const useToast = () => {
 
 
 
-  function MyComponent() {
-    const { toast } = useToast(); 
-
-    const handleClick = () => {
-      toast({ title: "Info", description: "Button clicked" });
-    };
-
-    return <button onClick={handleClick}>Show Toast</button>;
-  }
+ 
   const toast = React.useCallback(
     (props: Omit<Toast, "id">) => {
       const id = nanoid();

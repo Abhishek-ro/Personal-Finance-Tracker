@@ -26,6 +26,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
 
         return () => clearTimeout(timer);
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toast.id, toast.duration, onDismiss]);
 
     return (

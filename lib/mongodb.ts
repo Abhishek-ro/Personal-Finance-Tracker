@@ -1,27 +1,36 @@
-import mongoose from "mongoose";
+import mongoose, { Connection } from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
 
 if (!MONGODB_URI) {
-  throw new Error(" Please define the MONGODB_URI in your .env.local file.");
+  throw new Error("Please define the MONGODB_URI in your .env.local file.");
 }
 
-const cached = (global as any).mongoose ?? { conn: null, promise: null };
+interface MongooseCache {
+  conn: Connection | null;
+  promise: Promise<Connection> | null;
+}
 
-export async function connectDB() {
+
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: MongooseCache | undefined;
+}
+
+
+const cached: MongooseCache = global.mongoose ?? { conn: null, promise: null };
+global.mongoose = cached;
+
+export async function connectDB(): Promise<Connection> {
   if (cached.conn) return cached.conn;
 
-  try {
-    const connection = await mongoose.connect(MONGODB_URI, {
+
+  cached.promise ??= mongoose
+    .connect(MONGODB_URI, {
       dbName: "finance-tracker",
-    });
-   
-    cached.conn = connection;
-    return connection;
-  } catch (error) {
-    console.error("MongoDB connection failed:", error);
-    throw new Error(
-      "MongoDB connection error. Check your credentials or network."
-    );
-  }
+    })
+    .then((m) => m.connection);
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 }

@@ -7,10 +7,10 @@ export async function GET() {
     await connectDB();
     const budgets = await Budget.find();
     return NextResponse.json(budgets);
-  } catch (error: any) {
+  } catch (error) {
     console.error("GET /api/budget error:", error);
     return NextResponse.json(
-      { error: "Failed to fetch budgets", details: error.message },
+      { error: "Failed to fetch budgets" },
       { status: 500 }
     );
   }
@@ -33,10 +33,10 @@ export async function POST(req: Request) {
       { message: "Budget added successfully" },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error("POST /api/budget error:", error);
     return NextResponse.json(
-      { error: "Failed to add budget", details: error.message },
+      { error: "Failed to add budget" },
       { status: 500 }
     );
   }

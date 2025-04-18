@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+
 type Transaction = {
   _id: string;
   amount: number;
@@ -177,12 +178,12 @@ export default function Home() {
       }
       const data = await res.json();
       console.log("dataaaaaaaa", data);
-      return data || [];
-    } catch (error: any) {
+      return data ?? [];
+    } catch (error) {
       console.error("Error during fetch:", error);
       toast({
         title: "Error fetching transactions",
-        description: error.message || "An unexpected error occurred.",
+        description: "An unexpected error occurred.",
         variant: "destructive",
       });
       return [];
@@ -209,11 +210,11 @@ export default function Home() {
         budgetMap[budgetItem.category] = budgetItem.budget;
       });
       setBudgets(budgetMap);
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error during fetch:", error);
       toast({
         title: "Error fetching transactions",
-        description: error.message ?? "An unexpected error occurred.",
+        description: "An unexpected error occurred.",
         variant: "destructive",
       });
       return [];
@@ -370,11 +371,11 @@ export default function Home() {
         setTotalExpenses(total);
       })
       .catch((error) => {
-       
         console.error("Error in useEffect:", error);
       });
 
     fetchBudgets();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) {
@@ -609,8 +610,8 @@ const getUniqueColor = () => {
                 fill="#8884d8"
                 label
               >
-                {chartCategoryData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={getUniqueColor()} />
+                {chartCategoryData.map((entry) => (
+                  <Cell key={`cell-${entry.name}`} fill={getUniqueColor()} />
                 ))}
               </Pie>
               <Tooltip />
